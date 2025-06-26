@@ -1,7 +1,11 @@
 plugins {
     id 'java'
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
+
+group = 'com.example'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -15,5 +19,20 @@ dependencies {
 }
 
 application {
-    mainClassName = 'KubernetesCombinedJava' // adjust if your class is in a package
+    mainClass = 'KubernetesCombinedJava'
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass.get()
+    }
+}
+
+// Option 1: Do nothing, just use the -all JAR
+// Option 2: uncomment below to isolate outputs
+/*
+tasks.named('shadowJar') {
+    archiveClassifier = ''
+    destinationDirectory = file("$buildDir/shadow-jars")
+}
+*/
